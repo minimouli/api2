@@ -14,7 +14,8 @@ class SigninResDto {
 
     @ApiProperty()
     data: {
-        uuid: string
+        uuid: string,
+        token: string
     }
 
 }

@@ -55,6 +55,7 @@ const bootstrap = async () => {
         .setTitle('Minimouli')
         .setDescription('The API that runs the minimouli platform.')
         .setVersion('2.0')
+        .addBearerAuth()
         .build()
 
     const swaggerDocument = SwaggerModule.createDocument(app, swaggerDocumentConfig)

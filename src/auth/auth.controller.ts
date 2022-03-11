@@ -44,10 +44,13 @@ class AuthController {
         if (error)
             throw new BadRequestException(error)
 
+        const token = this.authService.generateToken(account)
+
         return {
             status: 'success',
             data: {
-                uuid: account.uuid
+                uuid: account.uuid,
+                token
             }
         }
     }
@@ -67,10 +70,13 @@ class AuthController {
         if (error)
             throw new BadRequestException(error)
 
+        const token = this.authService.generateToken(account)
+
         return {
             status: 'success',
             data: {
-                uuid: account.uuid
+                uuid: account.uuid,
+                token
             }
         }
     }
