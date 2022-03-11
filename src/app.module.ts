@@ -9,6 +9,7 @@ import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { MongooseModule } from '@nestjs/mongoose'
 import AccountModule from './account/account.module'
+import AuthModule from './auth/auth.module'
 
 @Module({
     imports: [
@@ -34,7 +35,8 @@ import AccountModule from './account/account.module'
             },
             inject: [ConfigService]
         }),
-        AccountModule
+        AccountModule,
+        AuthModule
     ]
 })
 class AppModule {}
