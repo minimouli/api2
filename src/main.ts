@@ -48,6 +48,7 @@ const bootstrap = async () => {
 
     const app = await NestFactory.create(AppModule)
 
+    app.enableCors()
     app.useGlobalFilters(new AllExceptionsFilter())
     app.useGlobalPipes(new ValidationPipe())
 
