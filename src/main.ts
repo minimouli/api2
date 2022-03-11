@@ -14,6 +14,7 @@ import {
     HttpStatus
 } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 import { Response } from 'express'
 import AppModule from './app.module'
 
@@ -49,6 +50,17 @@ const bootstrap = async () => {
     app.useGlobalFilters(new AllExceptionsFilter())
 
     const configService = app.get<ConfigService>(ConfigService)
+
+    const swaggerDocumentConfig = new DocumentBuilder()
+        .setTitle('Minimouli')
+        .setDescription('The API that runs the minimouli platform.')
+        .setVersion('2.0')
+        .build()
+
+    const swaggerDocument = SwaggerModule.createDocument(app, swaggerDocumentConfig)
+
+    if (configService.get<string>('SWAGGER_VISIBILITY') === 'show')
+        SwaggerModule.setup('swagger', app, swaggerDocument)
 
     await app.listen(configService.get<number>('APP_PORT'))
 }
