@@ -6,13 +6,21 @@
  */
 
 import { ApiProperty } from '@nestjs/swagger'
+import {
+    IsString,
+    Matches
+} from 'class-validator'
 
 class SignupReqDto {
 
     @ApiProperty()
+    @IsString()
+    @Matches(/^[a-zA-z0-9-_]{64}$/)
     readonly identity: string
 
     @ApiProperty()
+    @IsString()
+    @Matches(/^[a-zA-z0-9-_]{64}$/)
     readonly secret: string
 
 }
