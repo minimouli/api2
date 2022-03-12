@@ -26,6 +26,7 @@ import CreateRunReqDto from './dto/create-run.req.dto'
 import CreateRunResDto from './dto/create-run.res.dto'
 import ShowRunResDto from './dto/show-run.res.dto'
 import JwtGuard from '../auth/guards/jwt-auth.guard'
+import { calculateScoreFromSuites } from '../helpers/calculateScore.helper'
 import { translateSuiteSchemaToDto } from '../helpers/translateSuite.helper'
 
 @Controller('/run')
@@ -63,6 +64,7 @@ class RunController {
                     module: run.project.module,
                     organization: run.project.organization
                 },
+                score: calculateScoreFromSuites(run.suites),
                 creation_date: run.creation_date,
                 duration: run.duration
             }
@@ -96,6 +98,7 @@ class RunController {
                     organization: run.project.organization
                 },
                 suites: run.suites.map(suite => translateSuiteSchemaToDto(suite)),
+                score: calculateScoreFromSuites(run.suites),
                 creation_date: run.creation_date,
                 duration: run.duration
             }

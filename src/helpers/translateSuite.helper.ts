@@ -5,9 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import { calculateScore } from '../helpers/calculateScore.helper'
 import HintDto from '../types/dto/hint.dto'
 import SnippetDto from '../types/dto/snippet.dto'
 import SuiteDto from '../types/dto/suite.dto'
+import ScoredSuiteDto from '../types/dto/suite-scored.dto'
 import TestDto from '../types/dto/test.dto'
 import VariableDto from '../types/dto/variable.dto'
 import Hint from '../types/schemas/hint.schema'
@@ -98,13 +100,14 @@ const translateSnippetDtoToSchema = (snippet: SnippetDto): Snippet => {
 }
 
 /* Schema to Dto */
-const translateSuiteSchemaToDto = (suite: Suite): SuiteDto => {
+const translateSuiteSchemaToDto = (suite: Suite): ScoredSuiteDto => {
 
-    const newSuite = new SuiteDto()
+    const newSuite = new ScoredSuiteDto()
 
     newSuite.name = suite.name,
     newSuite.suites = suite.suites.map(suite => translateSuiteSchemaToDto(suite))
     newSuite.tests = suite.tests.map(test => translateTestSchemaToDto(test))
+    newSuite.score = calculateScore(suite)
 
     return newSuite
 }

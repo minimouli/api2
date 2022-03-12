@@ -8,7 +8,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import AccountDto from './account.dto'
 import FullProjectDto from './project-full.dto'
-import SuiteDto from './suite.dto'
+import ScoredSuiteDto from './suite-scored.dto'
 
 class FullRunDto {
 
@@ -28,7 +28,10 @@ class FullRunDto {
     project: FullProjectDto
 
     @ApiProperty()
-    suites: SuiteDto[]
+    suites: ScoredSuiteDto[]
+
+    @ApiProperty()
+    score: number
 
     @ApiProperty()
     creation_date: string

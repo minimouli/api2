@@ -27,6 +27,9 @@ class RunPreviewDto {
     project: FullProjectDto
 
     @ApiProperty()
+    score: number
+
+    @ApiProperty()
     creation_date: string
 
     @ApiProperty()
