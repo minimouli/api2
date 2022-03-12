@@ -24,15 +24,15 @@ class ProjectService {
         return this.projectModel.findOne({ uuid })
     }
 
-    async findByPayload(name: string, module: string, org: string): Promise<Project> {
+    async findByPayload(name: string, module: string, organization: string): Promise<Project> {
         return this.projectModel.findOne({
             name,
             module,
-            org
+            organization
         })
     }
 
-    async create(name: string, module: string, org: string): Promise<Project> {
+    async create(name: string, module: string, organization: string): Promise<Project> {
 
         const newProject = new Project()
 
@@ -40,19 +40,19 @@ class ProjectService {
         newProject.id = generateId(16)
         newProject.name = name
         newProject.module = module
-        newProject.org = org
+        newProject.organization = organization
 
         return this.projectModel.create(newProject)
     }
 
-    async findOrCreate(name: string, module: string, org: string): Promise<Project> {
+    async findOrCreate(name: string, module: string, organization: string): Promise<Project> {
 
-        const foundProject = await this.findByPayload(name, module, org)
+        const foundProject = await this.findByPayload(name, module, organization)
 
         if (foundProject)
             return foundProject
 
-        return this.create(name, module, org)
+        return this.create(name, module, organization)
     }
 
 }

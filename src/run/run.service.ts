@@ -42,7 +42,7 @@ class RunService {
         const project = await this.projectService.findOrCreate(
             projectDto.name,
             projectDto.module,
-            projectDto.org
+            projectDto.organization
         )
 
         const newRun = new Run()

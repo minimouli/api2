@@ -78,7 +78,7 @@ class RunController {
                     uri: `minimouli:project:${run.project.id}`,
                     name: run.project.name,
                     module: run.project.module,
-                    org: run.project.org
+                    organization: run.project.organization
                 },
                 suites: run.suites.map(suite => translateSuiteSchemaToDto(suite)),
                 creation_date: run.creation_date,

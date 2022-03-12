@@ -16,7 +16,7 @@ class ProjectPayloadDto {
     module: string
 
     @ApiProperty()
-    org: string
+    organization: string
 
 }
 

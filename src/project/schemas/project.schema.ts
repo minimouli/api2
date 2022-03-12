@@ -24,7 +24,7 @@ class Project {
     module: string
 
     @Prop()
-    org: string
+    organization: string
 
 }
 

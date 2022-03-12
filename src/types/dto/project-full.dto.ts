@@ -25,7 +25,7 @@ class ProjectFullDto {
     module: string
 
     @ApiProperty()
-    org: string
+    organization: string
 
 }
 
