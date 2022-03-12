@@ -17,6 +17,7 @@ import {
 } from '@nestjs/common'
 import {
     ApiBearerAuth,
+    ApiNotFoundResponse,
     ApiTags,
     ApiUnauthorizedResponse
 } from '@nestjs/swagger'
@@ -56,6 +57,7 @@ class RunController {
     }
 
     @Get('/:id')
+    @ApiNotFoundResponse({ description: 'The specified id does not correspond to a run.' })
     async show(@Param('id') id: string): Promise<ShowRunResDto> {
 
         const run = await this.runService.findById(id)
