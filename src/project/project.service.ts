@@ -20,8 +20,8 @@ class ProjectService {
         @InjectModel(Project.name) private readonly projectModel: Model<ProjectDocument>
     ) {}
 
-    async findByUuid(uuid: string): Promise<Project> {
-        return this.projectModel.findOne({ uuid })
+    async findById(id: string): Promise<Project> {
+        return this.projectModel.findOne({ id })
     }
 
     async findByPayload(name: string, module: string, organization: string): Promise<Project> {

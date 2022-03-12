@@ -7,6 +7,7 @@
 
 import { Module } from '@nestjs/common'
 import { MongooseModule } from '@nestjs/mongoose'
+import ProjectController from './project.controller'
 import ProjectService from './project.service'
 import Project, { ProjectSchema } from './schemas/project.schema'
 
@@ -17,6 +18,7 @@ import Project, { ProjectSchema } from './schemas/project.schema'
             schema: ProjectSchema
         }])
     ],
+    controllers: [ProjectController],
     providers: [ProjectService],
     exports: [ProjectService]
 })
