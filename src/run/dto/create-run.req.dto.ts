@@ -7,13 +7,13 @@
 
 import { ApiProperty } from '@nestjs/swagger'
 import { IsNumber } from 'class-validator'
-import ProjectDto from '../../types/dto/project.dto'
+import ProjectPayloadDto from '../../types/dto/project-payload.dto'
 import SuiteDto from '../../types/dto/suite.dto'
 
 class CreateRunReqDto {
 
     @ApiProperty()
-    readonly project: ProjectDto
+    readonly project: ProjectPayloadDto
 
     @ApiProperty()
     readonly suites: SuiteDto[]

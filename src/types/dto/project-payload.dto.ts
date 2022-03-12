@@ -7,7 +7,7 @@
 
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 
-class ProjectDto {
+class ProjectPayloadDto {
 
     @ApiProperty()
     name: string
@@ -20,4 +20,4 @@ class ProjectDto {
 
 }
 
-export default ProjectDto
+export default ProjectPayloadDto
