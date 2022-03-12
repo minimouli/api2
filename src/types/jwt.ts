@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import Account from '../account/schemas/account.schema'
+
 type JwtPayload = {
     sub: string
 }
@@ -15,7 +17,7 @@ type FullJwtPayload = JwtPayload & {
 }
 
 type ValidUser = {
-    accountUuid: string
+    account: Account
 }
 
 export type {
