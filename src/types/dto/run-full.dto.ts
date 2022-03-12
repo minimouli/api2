@@ -7,10 +7,10 @@
 
 import { ApiProperty } from '@nestjs/swagger'
 import AccountDto from './account.dto'
-import ProjectFullDto from './project-full.dto'
+import FullProjectDto from './project-full.dto'
 import SuiteDto from './suite.dto'
 
-class RunDto {
+class FullRunDto {
 
     @ApiProperty()
     uuid: string
@@ -25,7 +25,7 @@ class RunDto {
     owner: AccountDto
 
     @ApiProperty()
-    project: ProjectFullDto
+    project: FullProjectDto
 
     @ApiProperty()
     suites: SuiteDto[]
@@ -38,4 +38,4 @@ class RunDto {
 
 }
 
-export default RunDto
+export default FullRunDto

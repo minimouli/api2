@@ -5,9 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
+import { ApiProperty } from '@nestjs/swagger'
+import AccountDto from './account.dto'
+import FullProjectDto from './project-full.dto'
 
-class FullProjectDto {
+class RunPreviewDto {
 
     @ApiProperty()
     uuid: string
@@ -19,14 +21,17 @@ class FullProjectDto {
     uri: string
 
     @ApiProperty()
-    name: string
+    owner: AccountDto
 
     @ApiProperty()
-    module: string
+    project: FullProjectDto
 
     @ApiProperty()
-    organization: string
+    creation_date: string
+
+    @ApiProperty()
+    duration: number
 
 }
 
-export default FullProjectDto
+export default RunPreviewDto

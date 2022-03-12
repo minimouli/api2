@@ -51,7 +51,20 @@ class RunController {
             data: {
                 uuid: run.uuid,
                 id: run.id,
-                uri: `minimouli:run:${run.id}`
+                uri: `minimouli:run:${run.id}`,
+                owner: {
+                    uuid: req.user.account.uuid
+                },
+                project: {
+                    uuid: run.project.uuid,
+                    id: run.project.id,
+                    uri: `minimouli:project:${run.project.id}`,
+                    name: run.project.name,
+                    module: run.project.module,
+                    organization: run.project.organization
+                },
+                creation_date: run.creation_date,
+                duration: run.duration
             }
         }
     }

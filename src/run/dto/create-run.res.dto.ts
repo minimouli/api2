@@ -6,6 +6,7 @@
  */
 
 import { ApiProperty } from '@nestjs/swagger'
+import RunPreviewDto from '../../types/dto/run-preview.dto'
 
 class CreateRunResDto {
 
@@ -13,11 +14,7 @@ class CreateRunResDto {
     status: 'success'
 
     @ApiProperty()
-    data: {
-        uuid: string,
-        id: string,
-        uri: string
-    }
+    data: RunPreviewDto
 
 }
 

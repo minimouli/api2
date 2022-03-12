@@ -6,7 +6,7 @@
  */
 
 import { ApiProperty } from '@nestjs/swagger'
-import RunDto from '../../types/dto/run.dto'
+import FullRunDto from '../../types/dto/run-full.dto'
 
 class ShowRunResDto {
 
@@ -14,7 +14,7 @@ class ShowRunResDto {
     status: 'success'
 
     @ApiProperty()
-    data: RunDto
+    data: FullRunDto
 
 }
 
