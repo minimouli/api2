@@ -8,6 +8,9 @@
 import {
     Controller,
     Body,
+    Get,
+    NotFoundException,
+    Param,
     Post,
     Request,
     UseGuards
@@ -20,7 +23,9 @@ import {
 import RunService from './run.service'
 import CreateRunReqDto from './dto/create-run.req.dto'
 import CreateRunResDto from './dto/create-run.res.dto'
+import ShowRunResDto from './dto/show-run.res.dto'
 import JwtGuard from '../auth/guards/jwt-auth.guard'
+import { translateSuiteSchemaToDto } from '../helpers/translateSuite.helper'
 
 @Controller('/run')
 @ApiTags('run')
@@ -46,6 +51,38 @@ class RunController {
                 uuid: run.uuid,
                 id: run.id,
                 uri: `minimouli:run:${run.id}`
+            }
+        }
+    }
+
+    @Get('/:id')
+    async show(@Param('id') id: string): Promise<ShowRunResDto> {
+
+        const run = await this.runService.findById(id)
+
+        if (!run)
+            throw new NotFoundException('The specified id does not correspond to a run.')
+
+        return {
+            status: 'success',
+            data: {
+                uuid: run.uuid,
+                id: run.id,
+                uri: `minimouli:run:${run.id}`,
+                owner: {
+                    uuid: run.owner.uuid
+                },
+                project: {
+                    uuid: run.project.uuid,
+                    id: run.project.id,
+                    uri: `minimouli:project:${run.project.id}`,
+                    name: run.project.name,
+                    module: run.project.module,
+                    org: run.project.org
+                },
+                suites: run.suites.map(suite => translateSuiteSchemaToDto(suite)),
+                creation_date: run.creation_date,
+                duration: run.duration
             }
         }
     }

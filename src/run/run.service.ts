@@ -25,6 +25,12 @@ class RunService {
         @InjectModel(Run.name) private readonly runModel: Model<RunDocument>
     ) {}
 
+    async findById(id: string): Promise<Run | null> {
+        return this.runModel.findOne({ id })
+            .populate('owner')
+            .populate('project')
+    }
+
     async store(account: Account, createRunReqDto: CreateRunReqDto): Promise<Run> {
 
         const {
