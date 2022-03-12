@@ -6,7 +6,6 @@
  */
 
 import { ApiProperty } from '@nestjs/swagger'
-import AccountDto from '../../types/dto/account.dto'
 
 class AccountResDto {
 
@@ -14,7 +13,10 @@ class AccountResDto {
     status: 'success'
 
     @ApiProperty()
-    data: AccountDto
+    data: {
+        uuid: string,
+        creation_date: string
+    }
 
 }
 

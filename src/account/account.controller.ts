@@ -31,7 +31,8 @@ class AccountController {
         return {
             status: 'success',
             data: {
-                uuid: req.user.account.uuid
+                uuid: req.user.account.uuid,
+                creation_date: req.user.account.creation_date
             }
         }
     }
