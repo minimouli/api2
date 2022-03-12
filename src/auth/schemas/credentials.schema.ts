@@ -5,8 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import * as mongoose from 'mongoose'
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { Document } from 'mongoose'
+import Account from '../../account/schemas/account.schema'
 
 @Schema()
 class Credentials {
@@ -17,8 +19,11 @@ class Credentials {
     @Prop()
     secret_hash: string
 
-    @Prop()
-    account_uuid: string
+    @Prop({
+        type: mongoose.Schema.Types.ObjectId,
+        ref: Account.name
+    })
+    account: Account
 
 }
 

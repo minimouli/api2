@@ -38,6 +38,7 @@ class AuthService {
 
     async findByIdentity(identity: string): Promise<Credentials | null> {
         return this.credentialsModel.findOne({ identity })
+            .populate('account')
     }
 
     async findAndCompare(identity: string, secret: string): Promise<Credentials | null> {
@@ -68,7 +69,7 @@ class AuthService {
 
         newCredentials.identity = identity
         newCredentials.secret_hash = await bcrypt.hash(secret, 12)
-        newCredentials.account_uuid = account.uuid
+        newCredentials.account = account
 
         await this.credentialsModel.create(newCredentials)
 
@@ -82,12 +83,7 @@ class AuthService {
         if (!credentials)
             return { error: 'Unable to login.', account: null }
 
-        const account = await this.accountService.findByUuid(credentials.account_uuid)
-
-        if (!account)
-            return { error: 'The credentials does not correspond to an account.', account: null }
-
-        return { account, error: null }
+        return { account: credentials.account, error: null }
     }
 
     generateToken(account: Account): string {
