@@ -54,7 +54,7 @@ class RunController {
                 id: run.id,
                 uri: `minimouli:run:${run.id}`,
                 owner: {
-                    uuid: req.user.account.uuid
+                    uuid: run.owner.uuid
                 },
                 project: {
                     uuid: run.project.uuid,
