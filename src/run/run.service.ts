@@ -38,6 +38,9 @@ class RunService {
             owner: account._id,
             project: project._id
         })
+        .sort({
+            creation_date: options.order === 'oldest' ? 1 : -1
+        })
         .skip(options.offset)
         .limit(options.limit)
         .populate('owner')

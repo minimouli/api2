@@ -7,7 +7,8 @@
 
 type PaginationOptions = {
     offset: number,
-    limit: number
+    limit: number,
+    order: 'newest' | 'oldest'
 }
 
 export type {

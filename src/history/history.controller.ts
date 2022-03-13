@@ -41,10 +41,16 @@ class HistoryController {
     @UseGuards(JwtGuard)
     @ApiNotFoundResponse({ description: 'The specified id does not correspond to a project.' })
     @ApiUnauthorizedResponse({ description: 'Unauthorized' })
-    async list(@Request() req, @Query() query, @Param('id') id: string): Promise<ListRunResDto> {
+    async list(
+        @Request() req,
+        @Query('offset') offset,
+        @Query('limit') limit,
+        @Query('order') order,
+        @Param('id') id: string
+    ): Promise<ListRunResDto> {
 
-        const offset = range(parseInt(query.offset, 10), 0, Infinity, 0)
-        const limit = range(parseInt(query.limit, 10), 0, 50, 20)
+        offset = range(parseInt(offset, 10), 0, Infinity, 0)
+        limit = range(parseInt(limit, 10), 0, 50, 20)
 
         const project = await this.projectService.findById(id)
 
@@ -53,7 +59,8 @@ class HistoryController {
 
         const options = {
             offset,
-            limit
+            limit,
+            order
         }
 
         const runs = await this.historyService.list(req.user.account, project, options)
