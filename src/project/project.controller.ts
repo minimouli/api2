@@ -18,13 +18,15 @@ import {
 } from '@nestjs/swagger'
 import ProjectService from './project.service'
 import ShowProjectResDto from './dto/show-project.res.dto'
+import RunService from '../run/run.service'
 
 @Controller('/project')
 @ApiTags('project')
 class ProjectController {
 
     constructor(
-        private readonly projectService: ProjectService
+        private readonly projectService: ProjectService,
+        private readonly runService: RunService
     ) {}
 
     @Get('/:id')
@@ -36,6 +38,8 @@ class ProjectController {
         if (!project)
             throw new NotFoundException('The specified id does not correspond to a project.')
 
+        const record = await this.runService.countByProject(project)
+
         return {
             status: 'success',
             data: {
@@ -44,7 +48,8 @@ class ProjectController {
                 uri: `minimouli:project:${project.id}`,
                 name: project.name,
                 module: project.module,
-                organization: project.organization
+                organization: project.organization,
+                record
             }
         }
     }

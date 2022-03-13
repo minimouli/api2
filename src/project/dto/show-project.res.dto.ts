@@ -6,7 +6,7 @@
  */
 
 import { ApiProperty } from '@nestjs/swagger'
-import FullProjectDto from '../../types/dto/project-full.dto'
+import ProjectExtraDto from '../../types/dto/project-extra.dto'
 
 class ShowProjectResDto {
 
@@ -14,7 +14,7 @@ class ShowProjectResDto {
     status: 'success'
 
     @ApiProperty()
-    data: FullProjectDto
+    data: ProjectExtraDto
 
 }
 

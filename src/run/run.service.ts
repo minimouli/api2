@@ -55,6 +55,13 @@ class RunService {
         .count()
     }
 
+    async countByProject(project: Project): Promise<number> {
+        return this.runModel.find({
+            project: project._id
+        })
+        .count()
+    }
+
     async store(account: Account, createRunReqDto: CreateRunReqDto): Promise<Run> {
 
         const {

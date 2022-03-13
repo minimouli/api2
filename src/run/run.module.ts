@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { Module } from '@nestjs/common'
+import { Module, forwardRef } from '@nestjs/common'
 import { MongooseModule } from '@nestjs/mongoose'
 import RunController from './run.controller'
 import RunService from './run.service'
@@ -16,8 +16,8 @@ import ProjectModule from '../project/project.module'
 
 @Module({
     imports: [
+        forwardRef(() => ProjectModule),
         AccountModule,
-        ProjectModule,
         MongooseModule.forFeature([{
             name: Run.name,
             schema: RunSchema
