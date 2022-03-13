@@ -27,7 +27,8 @@ import ProjectModule from '../project/project.module'
     providers: [
         RunService,
         JwtStrategy
-    ]
+    ],
+    exports: [RunService]
 })
 class RunModule {}
 

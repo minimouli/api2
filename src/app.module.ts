@@ -10,6 +10,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 import { MongooseModule } from '@nestjs/mongoose'
 import AccountModule from './account/account.module'
 import AuthModule from './auth/auth.module'
+import HistoryModule from './history/history.module'
 import ProjectModule from './project/project.module'
 import RunModule from './run/run.module'
 
@@ -39,6 +40,7 @@ import RunModule from './run/run.module'
         }),
         AccountModule,
         AuthModule,
+        HistoryModule,
         ProjectModule,
         RunModule
     ]

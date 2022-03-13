@@ -13,9 +13,11 @@ import CreateRunReqDto from './dto/create-run.req.dto'
 import Run from './schemas/run.schema'
 import Account from '../account/schemas/account.schema'
 import ProjectService from '../project/project.service'
+import Project from '../project/schemas/project.schema'
 import { generateId } from '../helpers/generateId.helper'
 import { translateSuiteDtoToSchema } from '../helpers/translateSuite.helper'
 import type { RunDocument } from './schemas/run.schema'
+import type { PaginationOptions } from '../types/options'
 
 @Injectable()
 class RunService {
@@ -29,6 +31,25 @@ class RunService {
         return this.runModel.findOne({ id })
             .populate('owner')
             .populate('project')
+    }
+
+    async listForUserHistory(account: Account, project: Project, options: PaginationOptions): Promise<Run[]> {
+        return this.runModel.find({
+            owner: account._id,
+            project: project._id
+        })
+        .skip(options.offset)
+        .limit(options.limit)
+        .populate('owner')
+        .populate('project')
+    }
+
+    async countForUserHistory(account: Account, project: Project): Promise<number> {
+        return this.runModel.find({
+            owner: account._id,
+            project: project._id
+        })
+        .count()
     }
 
     async store(account: Account, createRunReqDto: CreateRunReqDto): Promise<Run> {
