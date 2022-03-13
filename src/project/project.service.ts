@@ -20,15 +20,15 @@ class ProjectService {
         @InjectModel(Project.name) private readonly projectModel: Model<ProjectDocument>
     ) {}
 
-    async findById(id: string): Promise<Project> {
+    async findById(id: string): Promise<Project | null> {
         return this.projectModel.findOne({ id })
     }
 
-    async findByPayload(name: string, module: string, organization: string): Promise<Project> {
+    async findByPayload(name: string, module: string, organization: string): Promise<Project | null> {
         return this.projectModel.findOne({
-            name,
-            module,
-            organization
+            name: name.toLowerCase(),
+            module: module.toUpperCase(),
+            organization: organization.toLowerCase()
         })
     }
 
@@ -38,9 +38,9 @@ class ProjectService {
 
         newProject.uuid = uuidv4()
         newProject.id = generateId(16)
-        newProject.name = name
-        newProject.module = module
-        newProject.organization = organization
+        newProject.name = name.toLowerCase()
+        newProject.module = module.toUpperCase()
+        newProject.organization = organization.toLowerCase()
 
         return this.projectModel.create(newProject)
     }
