@@ -8,7 +8,6 @@
 import * as bcrypt from 'bcrypt'
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
-import { JwtService } from '@nestjs/jwt'
 import { Model } from 'mongoose'
 import Credentials from './schemas/credentials.schema'
 import AccountService from '../account/account.service'
@@ -32,7 +31,6 @@ class AuthService {
 
     constructor(
         private readonly accountService: AccountService,
-        private readonly jwtService: JwtService,
         @InjectModel(Credentials.name) private readonly credentialsModel: Model<CredentialsDocument>
     ) {}
 
@@ -86,15 +84,9 @@ class AuthService {
         return { account: credentials.account, error: null }
     }
 
-    generateToken(account: Account): string {
-
-        const payload = {
-            sub: account.uuid
-        }
-
-        return this.jwtService.sign(payload)
-    }
-
 }
 
 export default AuthService
+export type {
+    LoginResponse
+}

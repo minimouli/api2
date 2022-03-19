@@ -17,6 +17,7 @@ import {
     ApiTags
 } from '@nestjs/swagger'
 import AuthService from './auth.service'
+import TokenService from './services/token.service'
 import SigninReqDto from './dto/signin.req.dto'
 import SigninResDto from './dto/signin.res.dto'
 import SignupReqDto from './dto/signup.req.dto'
@@ -27,7 +28,8 @@ import SignupResDto from './dto/signup.res.dto'
 class AuthController {
 
     constructor(
-        private readonly authService: AuthService
+        private readonly authService: AuthService,
+        private readonly tokenService: TokenService
     ) {}
 
     @Post('/signup')
@@ -44,7 +46,7 @@ class AuthController {
         if (error)
             throw new BadRequestException(error)
 
-        const token = this.authService.generateToken(account)
+        const token = this.tokenService.generateJwt(account)
 
         return {
             status: 'success',
@@ -70,7 +72,7 @@ class AuthController {
         if (error)
             throw new BadRequestException(error)
 
-        const token = this.authService.generateToken(account)
+        const token = this.tokenService.generateJwt(account)
 
         return {
             status: 'success',

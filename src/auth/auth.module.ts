@@ -12,6 +12,7 @@ import { MongooseModule } from '@nestjs/mongoose'
 import AuthController from './auth.controller'
 import AuthService from './auth.service'
 import Credentials, { CredentialsSchema } from './schemas/credentials.schema'
+import TokenService from './services/token.service'
 import AccountModule from '../account/account.module'
 
 @Module({
@@ -32,7 +33,10 @@ import AccountModule from '../account/account.module'
         }])
     ],
     controllers: [AuthController],
-    providers: [AuthService]
+    providers: [
+        AuthService,
+        TokenService
+    ]
 })
 class AuthModule {}
 
