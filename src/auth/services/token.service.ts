@@ -8,6 +8,7 @@
 import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import Account from '../../account/schemas/account.schema'
+import { generateId } from '../../helpers/generateId.helper'
 
 @Injectable()
 class TokenService {
@@ -23,6 +24,10 @@ class TokenService {
         }
 
         return this.jwtService.sign(payload)
+    }
+
+    generateRefreshToken(): string {
+        return generateId(64)
     }
 
 }

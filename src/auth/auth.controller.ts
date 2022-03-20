@@ -18,6 +18,8 @@ import {
 } from '@nestjs/swagger'
 import AuthService from './auth.service'
 import TokenService from './services/token.service'
+import RefreshReqDto from './dto/refresh.req.dto'
+import RefreshResDto from './dto/refresh.res.dto'
 import SigninReqDto from './dto/signin.req.dto'
 import SigninResDto from './dto/signin.res.dto'
 import SignupReqDto from './dto/signup.req.dto'
@@ -41,18 +43,19 @@ class AuthController {
             secret
         } = signupReqDto
 
-        const { account, error } = await this.authService.signup(identity, secret)
+        const { account, credentials, error } = await this.authService.signup(identity, secret)
 
         if (error)
             throw new BadRequestException(error)
 
-        const token = this.tokenService.generateJwt(account)
+        const jwt = this.tokenService.generateJwt(account)
 
         return {
             status: 'success',
             data: {
                 uuid: account.uuid,
-                token
+                token: jwt,
+                refresh_token: credentials.refresh_token
             }
         }
     }
@@ -67,18 +70,46 @@ class AuthController {
             secret
         } = signinReqDto
 
-        const { account, error } = await this.authService.signin(identity, secret)
+        const { account, credentials, error } = await this.authService.signin(identity, secret)
 
         if (error)
             throw new BadRequestException(error)
 
-        const token = this.tokenService.generateJwt(account)
+        const jwt = this.tokenService.generateJwt(account)
 
         return {
             status: 'success',
             data: {
                 uuid: account.uuid,
-                token
+                token: jwt,
+                refresh_token: credentials.refresh_token
+            }
+        }
+    }
+
+    @Post('/refresh')
+    @HttpCode(200)
+    @ApiBadRequestResponse({ description: 'The refresh token is invalid or already used.' })
+    async refresh(@Body() refreshReqDto: RefreshReqDto): Promise<RefreshResDto> {
+
+        const { refresh_token } = refreshReqDto
+
+        const { account, credentials, error } = await this.authService.findByRefreshToken(refresh_token)
+
+        if (error)
+            throw new BadRequestException(error)
+
+        const newRefreshToken = this.tokenService.generateRefreshToken()
+        const jwt = this.tokenService.generateJwt(account)
+
+        await this.authService.replaceRefreshToken(account, newRefreshToken)
+
+        return {
+            status: 'success',
+            data: {
+                uuid: account.uuid,
+                token: jwt,
+                refresh_token: newRefreshToken
             }
         }
     }

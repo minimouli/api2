@@ -7,18 +7,11 @@
 
 import { ApiProperty } from '@nestjs/swagger'
 
-class SigninResDto {
+class RefreshReqDto {
 
     @ApiProperty()
-    status: 'success'
-
-    @ApiProperty()
-    data: {
-        uuid: string,
-        token: string,
-        refresh_token: string
-    }
+    readonly refresh_token: string
 
 }
 
-export default SigninResDto
+export default RefreshReqDto

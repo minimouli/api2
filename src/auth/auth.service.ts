@@ -10,17 +10,20 @@ import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 import Credentials from './schemas/credentials.schema'
+import TokenService from './services/token.service'
 import AccountService from '../account/account.service'
 import Account from '../account/schemas/account.schema'
 import type { CredentialsDocument } from './schemas/credentials.schema'
 
 type SuccessLoginResponse = {
     account: Account,
+    credentials: Credentials,
     error: null
 }
 
 type FailureLoginResponse = {
     account: null,
+    credentials: null,
     error: string
 }
 
@@ -30,6 +33,7 @@ type LoginResponse = SuccessLoginResponse | FailureLoginResponse
 class AuthService {
 
     constructor(
+        private readonly tokenService: TokenService,
         private readonly accountService: AccountService,
         @InjectModel(Credentials.name) private readonly credentialsModel: Model<CredentialsDocument>
     ) {}
@@ -54,12 +58,24 @@ class AuthService {
         return credentials
     }
 
+    async findByRefreshToken(refreshToken: string): Promise<LoginResponse> {
+
+        const credentials = await this.credentialsModel.findOne({
+            refresh_token: refreshToken
+        }).populate('account')
+
+        if (!credentials)
+            return { error: 'The refresh token is invalid or already used.', account: null, credentials: null }
+
+        return { account: credentials.account, credentials, error: null }
+    }
+
     async signup(identity: string, secret: string): Promise<LoginResponse> {
 
         const foundAccount = await this.findByIdentity(identity)
 
         if (foundAccount)
-            return { error: 'The identity is already used.', account: null }
+            return { error: 'The identity is already used.', account: null, credentials: null }
 
         const account = await this.accountService.create()
 
@@ -67,11 +83,12 @@ class AuthService {
 
         newCredentials.identity = identity
         newCredentials.secret_hash = await bcrypt.hash(secret, 12)
+        newCredentials.refresh_token = this.tokenService.generateRefreshToken()
         newCredentials.account = account
 
         await this.credentialsModel.create(newCredentials)
 
-        return { account, error: null }
+        return { account, credentials: newCredentials, error: null }
     }
 
     async signin(identity: string, secret: string): Promise<LoginResponse> {
@@ -79,9 +96,18 @@ class AuthService {
         const credentials = await this.findAndCompare(identity, secret)
 
         if (!credentials)
-            return { error: 'Unable to login.', account: null }
+            return { error: 'Unable to login.', account: null, credentials: null }
 
-        return { account: credentials.account, error: null }
+        return { account: credentials.account, credentials, error: null }
+    }
+
+    async replaceRefreshToken(account: Account, newRefreshToken: string): Promise<void> {
+
+        await this.credentialsModel.updateOne({
+            account: account._id
+        }, {
+            $set: { refresh_token: newRefreshToken }
+        })
     }
 
 }

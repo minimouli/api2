@@ -19,6 +19,9 @@ class Credentials {
     @Prop()
     secret_hash: string
 
+    @Prop()
+    refresh_token: string
+
     @Prop({
         type: mongoose.Schema.Types.ObjectId,
         ref: Account.name

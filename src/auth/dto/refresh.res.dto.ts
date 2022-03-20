@@ -7,7 +7,7 @@
 
 import { ApiProperty } from '@nestjs/swagger'
 
-class SigninResDto {
+class RefreshResDto {
 
     @ApiProperty()
     status: 'success'
@@ -21,4 +21,4 @@ class SigninResDto {
 
 }
 
-export default SigninResDto
+export default RefreshResDto
